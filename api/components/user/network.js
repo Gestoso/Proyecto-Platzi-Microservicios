@@ -9,15 +9,15 @@ router.get('/', list);
 router.get('/:id', get);
 router.post('/', upsert); 
  
-function list(req, res) {
-    controller.list()
-    .then((lista) => {
-    response.success(req, res, lista, 200);
-    })
-    .catch ((e) => {
-    response.error(req, res, e.message || 'Internal error', 500);
-  });
+async function list(req, res, next) {
+  try {
+    const data = await controller.list();
+    res.status(200).json(data);
+  } catch (err) {
+    next(err);  
+  }
 }
+
 
 function get(req, res) {
   controller.get(req.params.id)
