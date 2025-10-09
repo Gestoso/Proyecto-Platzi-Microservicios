@@ -7,8 +7,7 @@ const router = express.Router();
 
 router.get('/', list);
 router.get('/:id', get);
-router.post('/', upsert);
-router.put('/', upsert);
+router.post('/', upsert); 
  
 function list(req, res) {
     controller.list()
@@ -29,7 +28,7 @@ function get(req, res) {
     response.error(req, res, e.message, 500);
   });
 }
-function upsert(req, res) {
+/* function upsert(req, res) {
   controller.upsert(req.params)
   .then((user) => {
     response.success(req, res, user, 201);
@@ -37,6 +36,6 @@ function upsert(req, res) {
   .catch((e) => {
     response.error(req, res, e.message, 500);
   });
-}
+} */
 
 module.exports = router;
