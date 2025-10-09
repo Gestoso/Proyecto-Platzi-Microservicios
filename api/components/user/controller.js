@@ -1,3 +1,4 @@
+const nanoid = require('nanoid');
 const TABLE = 'user'; 
 
 module.exports = function (injectedStore) {

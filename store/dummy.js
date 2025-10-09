@@ -1,3 +1,5 @@
+const bodyParser = require("body-parser");
+
 const db = {
     'user': [
         {id: 1, name: 'Albert'}
@@ -12,7 +14,16 @@ async function get(table, id) {
     return col.filter(item => item.id === id)[0] || null;
 }
 async function upsert(table, data) {
-    db[collection].push(data);
+    const user = {
+        name: bodyParser.name
+    }
+
+    if(data.id) {
+        user.id = data.id;
+    } else {
+        user.id = nanoid();
+    }
+    return StorageEvent.upsert(table, user);
 }
 async function remove(table, id) {
     return true;
