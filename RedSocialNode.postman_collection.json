@@ -1,0 +1,82 @@
+{
+  "info": {
+    "_postman_id": "8a78c4c7-28b2-4d4c-8e56-1e5b03bdf999",
+    "name": "RedSocialNode - API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "Gestoso"
+  },
+  "item": [
+    {
+      "name": "Listar usuarios",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/components/user",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "components", "user"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener usuario por ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/components/user/{{user_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "components", "user", "{{user_id}}"]
+        },
+        "description": "Obtiene un usuario específico por su ID.\n\nEjemplo de uso:\n\n- Reemplaza {{user_id}} por el valor devuelto en la lista de usuarios."
+      },
+      "response": []
+    },
+    {
+      "name": "Crear / Actualizar usuario (Upsert)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Juan Pérez\",\n    \"username\": \"juanperez\",\n    \"password\": \"12345\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/components/user",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "components", "user"]
+        },
+        "description": "Crea o actualiza un usuario. Si no envías ID, se genera automáticamente con nanoid()."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "user_id",
+      "value": ""
+    }
+  ]
+}
