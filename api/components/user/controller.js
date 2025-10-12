@@ -1,43 +1,49 @@
+const nanoid = require('nanoid');
 const auth = require('../auth');
-const TABLE = 'user';
+
+const TABLA = 'user';
 
 module.exports = function (injectedStore) {
-  let store = injectedStore;
-  if (!store) {
-    store = require('../../../store/dummy');
-  }
-
-  function list() {
-    return store.list(TABLE);
-  }
-
-  function get(id) {
-    return store.get(TABLE, id);
-  }
-
-  async function upsert(data) {
-    const { nanoid } = await import('nanoid');
-
-    const user = {
-      id: data.id || nanoid(),
-      name: data.name,
-      username: data.username,
-    };
-
-    if (data.password || data.username) {
-      await auth.upsert({
-        id: user.id,
-        username: user.username,
-        password: data.password,
-      });
+    let store = injectedStore;
+    if (!store) {
+        store = require('../../../store/dummy');
     }
 
-    return store.upsert(TABLE, user);
-  }
+    function list() {
+        return store.list(TABLA);
+    }
 
-  return {
-    list,
-    get,
-    upsert,
-  };
-};
+    function get(id) {
+        return store.get(TABLA, id);
+    }
+
+    async function upsert(body) {
+      const { nanoid } = await import('nanoid');
+        const user = {
+            name: body.name,
+            username: body.username,
+        }
+
+        if (body.id) {
+            user.id = body.id;
+        } else {
+            user.id = nanoid();
+        }
+
+        if (body.password || body.username) {
+            await auth.upsert({
+                id: user.id,
+                username: user.username,
+                password: body.password,
+            })
+        }
+
+        return store.upsert(TABLA, user);
+    }
+
+    return {
+        list,
+        get,
+        upsert,
+    };
+}

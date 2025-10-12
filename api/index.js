@@ -1,27 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-const config = require('../config');     
-const user = require('./components/user/network'); 
+
+const swaggerUi = require('swagger-ui-express');
+
+const config = require('../config.js');
+const user = require('./components/user/network');
 
 const app = express();
 
-app.use(cors()); 
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
-app.use('/api/components/user', user);
- 
-app.use((err, req, res, next) => {
-  console.error('🔥 Error detectado:', err);
+const swaggerDoc = require('./swagger.json');
 
-  res.status(err.status || 500).json({
-    error: true,
-    message: err.message || 'Error interno en el servidor',
-  });
-});
- 
+// ROUER
+app.use('/api/user', user);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
 app.listen(config.api.port, () => {
-  console.log('Api en puerto:', config.api.port);
+    console.log('Api escuchando en el puerto ', config.api.port);
 });
-
-module.exports = app;
