@@ -1,5 +1,4 @@
 const express = require('express');
-
 const response = require('../../../network/response');
 const Controller = require('./index');
 

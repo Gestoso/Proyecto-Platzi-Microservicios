@@ -1,21 +1,25 @@
 const jwt = require('jsonwebtoken');
-
 const config = require('../config');
+
 const secret = config.jwt.secret;
-const secure = require('../api/components/user/secure'); 
 
 function sign(data) {
-    return jwt.sign(data, 'secreto');
-}
-const check = {
-    own: function(req, owner) {
-        const decoded = decodeHeader(req);
-        console.log(decoded); 
-    },
+    return jwt.sign(data, secret);
 }
 
 function verify(token) {
     return jwt.verify(token, secret)
+}
+
+const check = {
+    own: function(req, owner) {
+        const decoded = decodeHeader(req);
+        console.log(decoded);
+
+        if (decoded.id !== owner) {
+            throw new Error('No puedes hacer esto');
+        }
+    },
 }
 
 function getToken(auth) {
@@ -24,11 +28,10 @@ function getToken(auth) {
     }
 
     if (auth.indexOf('Bearer ') === -1) {
-        throw new Error('Token invalido');
+        throw new Error('Formato invalido');
     }
 
     let token = auth.replace('Bearer ', '');
-
     return token;
 }
 
@@ -38,7 +41,11 @@ function decodeHeader(req) {
     const decoded = verify(token);
 
     req.user = decoded;
+
+    return decoded;
 }
+
 module.exports = {
-    sign
+    sign,
+    check,
 };
