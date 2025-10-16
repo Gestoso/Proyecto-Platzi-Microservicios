@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+
 const config = require('../config');
 const secret = config.jwt.secret;
-const secure = require('../api/components/user/secure');
+const secure = require('../api/components/user/secure'); 
 
 function sign(data) {
     return jwt.sign(data, 'secreto');

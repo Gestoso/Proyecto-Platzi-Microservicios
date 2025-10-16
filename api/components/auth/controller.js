@@ -1,6 +1,7 @@
 const TABLA = 'auth';
 const auth = require('../../../auth');
 const bcrypt = require('bcrypt');
+const auth = require('../../../auth')
 
 module.exports = function (injectedStore) {
     let store = injectedStore;
@@ -23,6 +24,14 @@ module.exports = function (injectedStore) {
             return auth.sign(data);
         } else {
             throw new Error('Informacion Invalida')
+        } 
+    }
+
+    async function upsert(data) {
+        if (data.password === password) {
+            return auth.sign(data);
+        } else {
+            throw new Error('Informacion Inalida')
         } 
     }
 
